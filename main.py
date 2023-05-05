@@ -1,5 +1,8 @@
 import pandas as pd
 
+# Функция создающая списки всех биграмм из всех из names.txt, а также количество всех биграмм и униграмм.
+# Возвращает список биграмм, словарь с количеством биграмм и словарь с количеством униграмм
+
 
 def createBigram():
     f = open('names.txt', 'r')
@@ -23,6 +26,10 @@ def createBigram():
     return listOfBigrams, unigramCounts, bigramCounts
 
 
+# Функция создающая словарь с вероятностями всех биграмм
+# Возвращает словарь с с вероятностями всех биграмм
+
+
 def calcBigramProb(listOfBigrams, unigramCounts, bigramCounts):
     listOfProb = {}
     for bigram in listOfBigrams:
@@ -30,6 +37,8 @@ def calcBigramProb(listOfBigrams, unigramCounts, bigramCounts):
         listOfProb[bigram] = bigramCounts.get(bigram) / unigramCounts.get(word1)
     return listOfProb
 
+
+# Функция vyborka возвращает выборку по всем вероятностям
 
 def vyborka(bigramProb):
     probs = []
@@ -42,6 +51,8 @@ def vyborka(bigramProb):
         'Probability': probs}
     return data
 
+
+# Эта функция генерирует рандомно имя по выборке
 
 def generate(df):
     bigram = tuple(df.sample()['Bigram'])[0]
@@ -66,6 +77,7 @@ if __name__ == '__main__':
     listOfBigrams, unigramCounts, bigramCounts = createBigram()
     bigramProb = calcBigramProb(listOfBigrams, unigramCounts, bigramCounts)
     df = pd.DataFrame(vyborka(bigramProb))
+    # Тут создается html файл с таблицей визуализирующие вероятности биграмм
     with open('dataframe.html', 'w') as outfile:
         outfile.write(df.to_html())
     name = generate(df)
