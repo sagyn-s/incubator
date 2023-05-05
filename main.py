@@ -52,7 +52,7 @@ def vyborka(bigramProb):
     return data
 
 
-# Эта функция генерирует рандомно имя по выборке
+# Функция Generate генерирует рандомно имя по выборке
 
 def generate(df):
     bigram = tuple(df.sample()['Bigram'])[0]
